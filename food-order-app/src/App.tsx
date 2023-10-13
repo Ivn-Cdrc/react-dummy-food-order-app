@@ -1,12 +1,13 @@
-import React from 'react';
+import { Fragment } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Header from './components/Layout/Header';
 
 function App() {
   return (
-    <div>
-      <h2>header</h2>
-    </div>
+    <Fragment>
+      <Header />
+    </Fragment>
   );
 }
 
