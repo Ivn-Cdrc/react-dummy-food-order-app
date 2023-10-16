@@ -1,5 +1,6 @@
 import classes from "./MealItem.module.css";
 import { Meal } from "../AvailableMeals";
+import MealItemForm from "./MealItemForm";
 
 interface MealItemProps {
 	meal: Meal;
@@ -16,7 +17,7 @@ function MealItem({meal}: MealItemProps) {
 				<div className={classes.price}>{formattedPrice}</div>
 			</div>
 			<div>
-
+				<MealItemForm />
 			</div>
 		</li>
 	);
