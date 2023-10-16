@@ -17,7 +17,7 @@ function MealItem({meal}: MealItemProps) {
 				<div className={classes.price}>{formattedPrice}</div>
 			</div>
 			<div>
-				<MealItemForm />
+				<MealItemForm id={meal.id}/>
 			</div>
 		</li>
 	);

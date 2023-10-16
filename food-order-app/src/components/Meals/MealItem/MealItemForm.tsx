@@ -2,9 +2,9 @@ import classes from "./MealItemForm.module.css";
 import Input from "../../UI/Input";
 import { inputConfigObj } from "../../UI/Input";
 
-function MealItemForm() {
+function MealItemForm({ id }: { id: string }) {
   const config: inputConfigObj = {
-    id: "amount",
+    id: "amount_" + id,
     type: "number",
     min: "1",
     max: "5",
