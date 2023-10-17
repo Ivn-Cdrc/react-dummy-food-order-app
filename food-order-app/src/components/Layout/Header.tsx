@@ -4,12 +4,16 @@ import HeaderCartButton from "./HeaderCartButton";
 
 import ramenImg from "../../assets/ramen-cropped.png";
 
-function Header() {
+interface HeaderProps {
+  onShowCart: () => void;
+}
+
+function Header({onShowCart}: HeaderProps) {
   return (
     <Fragment>
       <header className={classes.header}>
         <h1>Yummy Meals</h1>
-        <HeaderCartButton />
+        <HeaderCartButton onClick={onShowCart} />
       </header>
       <div className={classes["main-image"]}>
         <img src={ramenImg} alt="A bowl of ramen." />
