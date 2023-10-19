@@ -1,3 +1,4 @@
+import React from "react";
 import classes from "./Input.module.css";
 
 // these are all default props to any input element
@@ -16,13 +17,15 @@ interface InputProps {
 }
 
 // this is a reusable input component
-function Input({ label, input }: InputProps) {
-  return (
-    <div className={classes.input}>
-      <label htmlFor={input.id}>{label}</label>
-      <input {...input} />
-    </div>
-  );
-}
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ label, input }: InputProps, ref) => {
+    return (
+      <div className={classes.input}>
+        <label htmlFor={input.id}>{label}</label>
+        <input ref={ref} {...input} />
+      </div>
+    );
+  }
+);
 
 export default Input;
