@@ -14,12 +14,34 @@ type ACTIONTYPE =
 
 function cartReducer(state: typeof defaultCartState, action: ACTIONTYPE) {
   if (action.type === "ADD_ITEM") {
-    const updatedItems = state.items.concat(action.payload);
     const updatedTotalAmount =
       state.totalAmount + action.payload.price * action.payload.amount;
+
+    // before deriving updated items, check if item is already part of the cart
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.payload.id
+    );
+
+    let updatedItems;
+    
+    // if item does not exist in the cart ...
+    if(existingCartItemIndex != -1) {
+      const existingCartItem = state.items[existingCartItemIndex];
+      const updatedItem = {
+        ...existingCartItem,
+        amount: existingCartItem.amount + action.payload.amount
+      };
+      // updating the array immutably. Copying contents of old array
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    } else {
+      updatedItems = state.items.concat(action.payload);
+    }
+
+    // return new state snapshot with the new items
     return {
       items: updatedItems,
-      totalAmount: updatedTotalAmount
+      totalAmount: updatedTotalAmount,
     };
   } else if (action.type === "REMOVE_ITEM") {
   }
