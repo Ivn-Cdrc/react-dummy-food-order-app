@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import CartContext from "./cart-context";
 import { CartContextInterface } from "./cart-context";
 import { Item } from "./cart-context";
@@ -23,13 +24,13 @@ function cartReducer(state: typeof defaultCartState, action: ACTIONTYPE) {
     );
 
     let updatedItems;
-    
+
     // if item does not exist in the cart ...
-    if(existingCartItemIndex != -1) {
+    if (existingCartItemIndex != -1) {
       const existingCartItem = state.items[existingCartItemIndex];
       const updatedItem = {
         ...existingCartItem,
-        amount: existingCartItem.amount + action.payload.amount
+        amount: existingCartItem.amount + action.payload.amount,
       };
       // updating the array immutably. Copying contents of old array
       updatedItems = [...state.items];
@@ -44,7 +45,32 @@ function cartReducer(state: typeof defaultCartState, action: ACTIONTYPE) {
       totalAmount: updatedTotalAmount,
     };
   } else if (action.type === "REMOVE_ITEM") {
+    // getting the index of the existing item
+    const existingCartItemIndex = state.items.findIndex(
+      (item) => item.id === action.payload
+    );
+
+    const existingItem: Item = state.items[existingCartItemIndex];
+    const updatedTotalAmount: number = state.totalAmount - existingItem.price;
+    let updatedItems: Item[];
+
+    if (existingItem.amount === 1) {
+      // Only one copy of the item in the cart, remove the item
+      updatedItems = state.items.filter((item) => item.id !== action.payload);
+    } else {
+      // more than one copy of the item in the cart, just decrease the amount
+      const updatedItem = { ...existingItem, amount: existingItem.amount - 1 };
+      updatedItems = [...state.items];
+      updatedItems[existingCartItemIndex] = updatedItem;
+    }
+
+    return {
+      items: updatedItems,
+      totalAmount: updatedTotalAmount,
+    };
   }
+
+  // action type does not meet conditions (on first run/render)
   return defaultCartState;
 }
 

@@ -21,9 +21,13 @@ function Cart({ onClose }: CartProps) {
   const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
   const hasItems = cartCtx.items.length > 0;
 
-  function cartItemRemoveHandler(id: string) {}
+  function cartItemRemoveHandler(id: string) {
+    cartCtx.removeItem(id);
+  }
 
-  function cartItemAddHandler(item: Item) {}
+  function cartItemAddHandler(item: Item) {
+    cartCtx.addItem({...item, amount: 1});
+  }
 
   const cartItems = (
     <ul className={classes["cart-items"]}>
